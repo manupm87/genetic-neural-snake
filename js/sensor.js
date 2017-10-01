@@ -33,7 +33,7 @@ Sensor.prototype = {
   },
 
   _computeValueForPos: function(pos) {
-    if this._isOnSight(pos) {
+    if (this._isOnSight(pos)) {
       this.value += Math.exp(-0.1 * this.distance(pos))
     }
   },
