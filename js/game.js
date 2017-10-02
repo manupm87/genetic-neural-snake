@@ -82,7 +82,9 @@ Renderer.prototype = {
 		this.ctx.clearRect(0, 0, this.ctx.canvas.clientWidth, this.ctx.canvas.clientHeight);
 	},
   renderSnake : function(s) {
-    this.renderCircle(s.head.pos, 'blue', 'black', 10, 5)
+    s.body.forEach(function(b, i){
+      this.renderCircle(b.pos, 'blue', 'black', 10, 5)
+    }, this)
   },
   renderFood : function(f) {
     this.renderCircle(f.pos, 'red', 'red', 6, 1)
