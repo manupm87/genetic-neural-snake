@@ -4,8 +4,8 @@ class Food {
     this.life = life;
   }
 
-  decreaseLifeTime() {
-    this.life--;
+  decreaseLifeTime(time) {
+    this.life -= time;
   }
 }
 

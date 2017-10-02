@@ -34,5 +34,8 @@ Snake.prototype = {
   moveForward: function() {
     this.head.pos.x = (WORLD_WIDTH + this.head.pos.x + SNAKE_SPEED * Math.cos(this.direction * Math.PI / 180) * (dt / 1000)) % WORLD_WIDTH;
     this.head.pos.y = (WORLD_HEIGHT + this.head.pos.y + SNAKE_SPEED * Math.sin(this.direction * Math.PI / 180) * (dt / 1000)) % WORLD_HEIGHT;
+  },
+  grow: function(){
+    console.log("ATE!")
   }
 }
