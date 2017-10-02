@@ -1,10 +1,14 @@
-function Food(pos, life) {
-  this.pos = {x: pos.x, y: pos.y}
-  this.life = time;
-}
+class Food {
+  constructor(pos, life){
+    this.pos = {x: pos.x, y: pos.y}
+    this.life = life;
+  }
 
-Food.prototype = {
-  decreaseLifeTime: function() {
+  decreaseLifeTime() {
     this.life--;
   }
 }
+
+module.exports = {
+    Food: Food
+};
