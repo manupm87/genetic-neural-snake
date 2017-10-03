@@ -1,4 +1,4 @@
-body {
+/*body {
   margin: 1em;
   background: #333;
   color: #ccc;
@@ -7,9 +7,7 @@ body {
   text-transform: uppercase;
 }
 
-/*button {
-  float: left;
-}*/
+
 
 h1 {
   font-size: 5vw;
@@ -80,4 +78,4 @@ h1 {
   border-radius: 40% 40% 60% 60%;
   -webkit-transition: opacity 200ms;
   transition: opacity 200ms;
-}
+}*/

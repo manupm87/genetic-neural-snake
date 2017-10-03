@@ -5,9 +5,26 @@ body, html{
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
+    /*margin: 1em;*/
+    background: #333;
+    color: #ccc;
 }
 
 canvas {
   background-color: rgb(200, 200, 200);
   margin-bottom: 10vh;
+}
+
+.btn{
+  width: 30vw;
+  height: 30vw;
+  background-color: aqua;
+}
+
+#btn-left{
+  float:left;
+}
+
+#btn-right{
+  float: right;
 }
