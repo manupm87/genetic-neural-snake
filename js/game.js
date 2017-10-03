@@ -110,6 +110,12 @@ Renderer.prototype = {
     this.ctx.strokeStyle = strokeColor;
     this.ctx.stroke();
   },
+  renderSize: function(size) {
+    this.ctx.font="300px Verdana";
+    this.ctx.textAlign = 'center';
+    this.ctx.fillStyle = 'rgba(255,255,255,0.5)';
+    this.ctx.fillText(size, WORLD_WIDTH / 2, WORLD_HEIGHT / 2 + 100);
+  },
   clearCanvas : function() {
 		this.ctx.clearRect(0, 0, this.ctx.canvas.clientWidth, this.ctx.canvas.clientHeight);
 	},
@@ -129,6 +135,7 @@ Renderer.prototype = {
   },
 	renderGame : function(game) {
     this.clearCanvas();
+    this.renderSize(game.snakes[0].body.length)
     game.snakes.forEach(function(s, i){
       this.renderSnake(s)
     }, this);
