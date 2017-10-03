@@ -8,6 +8,7 @@ body, html{
     /*margin: 1em;*/
     background: #333;
     color: #ccc;
+    text-align: center;
 }
 
 canvas {
