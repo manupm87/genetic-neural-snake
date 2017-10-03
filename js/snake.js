@@ -1,12 +1,12 @@
 NUM_SENSORS = 12
 SNAKE_VISION = 240
-SNAKE_SPEED = 100 //px per second
-STEERING_SPEED = 180 // degrees per second
+SNAKE_SPEED = 200 //px per second
+STEERING_SPEED = 360 // degrees per second
 BONE_SIZE = 20
 dt = 200 // milliseconds (rendering freq.)
 
-WORLD_WIDTH=900
-WORLD_HEIGHT=800
+WORLD_WIDTH=600
+WORLD_HEIGHT=400
 
 
 class BodyPart{
