@@ -36,6 +36,18 @@ function setEvents(g) {
        g.pressRight(false);
     }
   }
+  document.getElementById("btn-left").onmousedown = function () {
+    g.pressLeft(true);
+  }
+  document.getElementById("btn-left").onmouseup = function () {
+    g.pressLeft(false);
+  }
+  document.getElementById("btn-right").onmousedown = function() {
+    g.pressRight(true);
+  }
+  document.getElementById("btn-right").onmouseup = function() {
+    g.pressRight(false);
+  }
 }
 
 window.onload = function() {
