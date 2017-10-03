@@ -121,7 +121,12 @@ Renderer.prototype = {
 	},
   renderSnake : function(s) {
     s.body.forEach(function(b, i){
-      this.renderCircle(b.pos, 'blue', 'black', 10, 5)
+      if(i===0){
+        this.renderCircle(b.pos, 'aqua', 'black', 12, 5)
+      }
+      else {
+        this.renderCircle(b.pos, 'blue', 'black', 10, 5)
+      }
     }, this)
   },
   renderFood : function(f) {
