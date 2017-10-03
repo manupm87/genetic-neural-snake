@@ -36,16 +36,16 @@ function setEvents(g) {
        g.pressRight(false);
     }
   }
-  document.getElementById("btn-left").onmousedown = function () {
+  document.getElementById("btn-left").ontouchstart = function () {
     g.pressLeft(true);
   }
-  document.getElementById("btn-left").onmouseup = function () {
+  document.getElementById("btn-left").ontouchend = function () {
     g.pressLeft(false);
   }
-  document.getElementById("btn-right").onmousedown = function() {
+  document.getElementById("btn-right").ontouchstart = function() {
     g.pressRight(true);
   }
-  document.getElementById("btn-right").onmouseup = function() {
+  document.getElementById("btn-right").ontouchend = function() {
     g.pressRight(false);
   }
 }
