@@ -1,6 +1,7 @@
 dt = 20 // milliseconds (rendering freq.)
 SIMULTANEUS_FOOD = 5
 MOUTH_SIZE = 20
+WALL_THICKNESS = 20
 
 class Game {
   constructor(){
@@ -13,9 +14,13 @@ class Game {
     this.snakes.push(new Snake({x: 100, y: 50}, 0))
   }
 
+  restart() {
+    this.snakes[0] = new Snake({x: 100, y: 50}, 0)
+  }
+
   spawnFood(){
-    let rand_x = parseInt(WORLD_WIDTH * Math.random())
-    let rand_y = parseInt(WORLD_HEIGHT * Math.random())
+    let rand_x = 2 * WALL_THICKNESS + parseInt((WORLD_WIDTH - 4 * WALL_THICKNESS) * Math.random())
+    let rand_y = 2 * WALL_THICKNESS + parseInt((WORLD_HEIGHT - 4 * WALL_THICKNESS) * Math.random())
     this.food.push(new Food({x: rand_x, y: rand_y}, 10))
   }
 
@@ -28,6 +33,9 @@ class Game {
 
   gameLoop(othis) {
     othis.snakes.forEach(function(s, i) {
+      othis.checkWalls(s)
+      othis.checkSelf(s)
+
       othis.food.forEach(function(f, j) {
         if (othis._distance(s.head.pos, f.pos) < MOUTH_SIZE) {
           othis.food.splice(j, 1);
@@ -48,6 +56,21 @@ class Game {
     while(othis.food.length < SIMULTANEUS_FOOD){
       othis.spawnFood()
     }
+  }
+
+  checkWalls(s) {
+    if (s.head.pos.x < WALL_THICKNESS / 2 || s.head.pos.x > WORLD_WIDTH - WALL_THICKNESS / 2)
+      this.restart()
+    else if (s.head.pos.y < WALL_THICKNESS / 2 || s.head.pos.y > WORLD_HEIGHT - WALL_THICKNESS / 2) {
+      this.restart()
+    }
+  }
+
+  checkSelf(s) {
+    s.body.forEach(function(b, i){
+      if (i > 2 && this._distance(s.head.pos, b.pos) < BONE_SIZE)
+        this.restart()
+    }, this)
   }
 
   pressRight(pressed) {
@@ -78,6 +101,15 @@ Renderer.prototype = {
 		this.ctx.lineWidth = lineWidth;
 		this.ctx.stroke();
 	},
+  renderRectangle: function(start, end, fillColor, strokeColor, lineWidth) {
+    this.ctx.beginPath();
+    this.ctx.rect(start.x, start.y, end.x - start.x, end.y - start.y);
+    this.ctx.fillStyle = fillColor;
+    this.ctx.fill();
+    this.ctx.lineWidth = lineWidth;
+    this.ctx.strokeStyle = strokeColor;
+    this.ctx.stroke();
+  },
   clearCanvas : function() {
 		this.ctx.clearRect(0, 0, this.ctx.canvas.clientWidth, this.ctx.canvas.clientHeight);
 	},
@@ -89,6 +121,12 @@ Renderer.prototype = {
   renderFood : function(f) {
     this.renderCircle(f.pos, 'red', 'red', 6, 1)
   },
+  renderWall : function() {
+    this.renderRectangle({x: 0, y: 0}, {x: WALL_THICKNESS, y: WORLD_HEIGHT}, 'black', 'black', 1)
+    this.renderRectangle({x: WORLD_WIDTH - WALL_THICKNESS, y: 0}, {x: WORLD_WIDTH, y: WORLD_HEIGHT}, 'black', 'black', 1)
+    this.renderRectangle({x: 0, y: 0}, {x: WORLD_WIDTH, y: WALL_THICKNESS}, 'black', 'black', 1)
+    this.renderRectangle({x: 0, y: WORLD_HEIGHT - WALL_THICKNESS}, {x: WORLD_WIDTH, y: WORLD_HEIGHT}, 'black', 'black', 1)
+  },
 	renderGame : function(game) {
     this.clearCanvas();
     game.snakes.forEach(function(s, i){
@@ -96,6 +134,7 @@ Renderer.prototype = {
     }, this);
     game.food.forEach(function(f, i){
       this.renderFood(f);
-    }, this)
+    }, this);
+    this.renderWall();
 	}
 }

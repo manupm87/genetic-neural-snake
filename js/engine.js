@@ -9,6 +9,7 @@ function init() {
   window.setInterval(function() {
 		renderer.renderGame(game);
 	}, RENDER_FREQ);
+
   game.start()
 }
 
