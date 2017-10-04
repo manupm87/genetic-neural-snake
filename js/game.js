@@ -101,6 +101,15 @@ Renderer.prototype = {
 		this.ctx.lineWidth = lineWidth;
 		this.ctx.stroke();
 	},
+  renderArc: function(p, fillColor, strokeColor, radius, lineWidth, start_alpha, end_alpha) {
+		this.ctx.fillStyle = fillColor;
+		this.ctx.beginPath();
+		this.ctx.strokeStyle = strokeColor;
+		this.ctx.arc(p.x, p.y, radius, 0, 2 * Math.PI, false);
+		this.ctx.fill();
+		this.ctx.lineWidth = lineWidth;
+		this.ctx.stroke();
+	},
   renderRectangle: function(start, end, fillColor, strokeColor, lineWidth) {
     this.ctx.beginPath();
     this.ctx.rect(start.x, start.y, end.x - start.x, end.y - start.y);
@@ -125,7 +134,11 @@ Renderer.prototype = {
     }, this)
   },
   renderFood : function(f) {
+    this.renderFoodLife(f)
     this.renderCircle(f.pos, 'red', 'red', 6, 1)
+  },
+  renderFoodLife : function(f) {
+    this.renderArc(f.pos, 'yellow', 'yellow', 8, 1, 0, 2 * Math.PI / FOOD_INITIAL_LIFE * f.life)
   },
   renderWall : function() {
     this.renderRectangle({x: 0, y: 0}, {x: WALL_THICKNESS, y: WORLD_HEIGHT}, 'black', 'black', 1)
