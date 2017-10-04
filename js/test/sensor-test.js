@@ -1,8 +1,10 @@
 var s = require('../sensor')
 var f = require('../food')
+var bp = require('../snake')
 var assert = require('assert');
 
 describe('Sensor', function() {
+  bodyPart = new bp.BodyPart({x: 0, y: 0}, 0)
   sensor = new s.Sensor(0, 10)
   world = {
     food: [
@@ -41,6 +43,14 @@ describe('Sensor', function() {
     it('can see {x:0, y:10} from (10, 10) and 10deg vission with direction=180deg', function() {
       new_sensor = new s.Sensor(0, 10).setMountPoint({x: 10, y: 10}).setDirection(180)
       assert.equal(true, new_sensor._isOnSight({x: 0, y: 10}))
+    });
+    it('can see {x:0, y:0} from (400, 400) and 10deg vission with direction=225deg', function() {
+      new_sensor = new s.Sensor(new bp.BodyPart({x: 400, y: 400}, 225), 0, 0, 10)
+      assert.equal(true, new_sensor._isOnSight({x: 0, y: 0}))
+    })
+    it('can see {x:495, y:255} from (506, 333) and 30deg vission with direction=255', function() {
+      new_sensor = new s.Sensor(new bp.BodyPart({x: 506, y: 333}, 255), 0, 0, 30)
+      assert.equal(true, new_sensor._isOnSight({x: 495, y: 255}))
     })
   })
 });

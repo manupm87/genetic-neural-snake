@@ -12,10 +12,12 @@ class Game {
 
   initialize() {
     this.snakes.push(new Snake({x: 100, y: 50}, 0))
+    this.snakes[0].mountSensors(KIND_FOOD)
   }
 
   restart() {
     this.snakes[0] = new Snake({x: 100, y: 50}, 0)
+    this.snakes[0].mountSensors(KIND_FOOD)
   }
 
   spawnFood(){
@@ -33,6 +35,7 @@ class Game {
 
   gameLoop(othis) {
     othis.snakes.forEach(function(s, i) {
+
       othis.checkWalls(s)
       othis.checkSelf(s)
 
@@ -43,6 +46,7 @@ class Game {
         }
       })
       s.turn(othis.controls.right, othis.controls.left);
+      s.scanWorld({food: othis.food})
       s.moveForward();
     })
     // Food loop:
@@ -83,83 +87,4 @@ class Game {
   _distance(p1, p2) {
     return Math.sqrt(Math.pow(p1.x - p2.x, 2) + Math.pow(p1.y - p2.y, 2))
   }
-}
-
-function Renderer(canvas) {
-	this.ctx = canvas.getContext('2d');
-	this.center = canvas.width / 2;
-
-}
-
-Renderer.prototype = {
-  renderCircle: function(p, fillColor, strokeColor, radius, lineWidth) {
-		this.ctx.fillStyle = fillColor;
-		this.ctx.beginPath();
-		this.ctx.strokeStyle = strokeColor;
-		this.ctx.arc(p.x, p.y, radius, 0, 2 * Math.PI, false);
-		this.ctx.fill();
-		this.ctx.lineWidth = lineWidth;
-		this.ctx.stroke();
-	},
-  renderArc: function(p, fillColor, strokeColor, radius, lineWidth, start_alpha, end_alpha, clockwise) {
-		this.ctx.fillStyle = fillColor;
-		this.ctx.beginPath();
-		this.ctx.strokeStyle = strokeColor;
-		this.ctx.arc(p.x, p.y, radius, start_alpha, end_alpha, false);
-		this.ctx.fill();
-		this.ctx.lineWidth = lineWidth;
-		this.ctx.stroke();
-	},
-  renderRectangle: function(start, end, fillColor, strokeColor, lineWidth) {
-    this.ctx.beginPath();
-    this.ctx.rect(start.x, start.y, end.x - start.x, end.y - start.y);
-    this.ctx.fillStyle = fillColor;
-    this.ctx.fill();
-    this.ctx.lineWidth = lineWidth;
-    this.ctx.strokeStyle = strokeColor;
-    this.ctx.stroke();
-  },
-  renderSize: function(size) {
-    this.ctx.font="300px Verdana";
-    this.ctx.textAlign = 'center';
-    this.ctx.fillStyle = 'rgba(255,255,255,0.5)';
-    this.ctx.fillText(size, WORLD_WIDTH / 2, WORLD_HEIGHT / 2 + 100);
-  },
-  clearCanvas : function() {
-		this.ctx.clearRect(0, 0, this.ctx.canvas.clientWidth, this.ctx.canvas.clientHeight);
-	},
-  renderSnake : function(s) {
-    s.body.forEach(function(b, i){
-      if(i===0){
-        this.renderCircle(b.pos, 'aqua', 'black', 12, 5)
-      }
-      else {
-        this.renderCircle(b.pos, 'blue', 'black', 10, 5)
-      }
-    }, this)
-  },
-  renderFood : function(f) {
-    this.renderFoodLife(f)
-    this.renderCircle(f.pos, 'red', 'red', 6, 1)
-  },
-  renderFoodLife : function(f) {
-    this.renderArc(f.pos, 'rgba(200,50,50,1)', 'rgba(200,50,50,1)', 10, 1, -Math.PI/180 * 45, -Math.PI/180 * 45 + 2 * Math.PI / FOOD_INITIAL_LIFE * f.life, true)
-  },
-  renderWall : function() {
-    this.renderRectangle({x: 0, y: 0}, {x: WALL_THICKNESS, y: WORLD_HEIGHT}, 'black', 'black', 1)
-    this.renderRectangle({x: WORLD_WIDTH - WALL_THICKNESS, y: 0}, {x: WORLD_WIDTH, y: WORLD_HEIGHT}, 'black', 'black', 1)
-    this.renderRectangle({x: 0, y: 0}, {x: WORLD_WIDTH, y: WALL_THICKNESS}, 'black', 'black', 1)
-    this.renderRectangle({x: 0, y: WORLD_HEIGHT - WALL_THICKNESS}, {x: WORLD_WIDTH, y: WORLD_HEIGHT}, 'black', 'black', 1)
-  },
-	renderGame : function(game) {
-    this.clearCanvas();
-    this.renderSize(game.snakes[0].body.length)
-    game.snakes.forEach(function(s, i){
-      this.renderSnake(s)
-    }, this);
-    game.food.forEach(function(f, i){
-      this.renderFood(f);
-    }, this);
-    this.renderWall();
-	}
 }

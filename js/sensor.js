@@ -3,12 +3,14 @@ KIND_WALL = 1
 KIND_SELF = 2
 
 class Sensor {
-  constructor (kind, vision) {
+  constructor (part, direction, kind, vision) {
     this.kind = kind;
-    this.direction = 0;
+    this.ini_direction = direction;
+    this.direction = part.direction + direction
     this.excitement = 0;
     this.vision = vision;
-    this.mountPoint = {x: 0, y:0};
+    this.mountPoint = part.pos;
+    this.mount = part;
   }
 
   setDirection(d) {
@@ -30,6 +32,7 @@ class Sensor {
   }
 
   scan(world) {
+    this.excitement = 0
     if (this.kind == KIND_FOOD){
       world.food.forEach(function(f, i){
         this._computeValueForPos(f.pos);
@@ -40,15 +43,17 @@ class Sensor {
 
   _computeValueForPos(pos) {
     if (this._isOnSight(pos)) {
-      this.excitement += Math.exp(-0.1 * this.distance(pos))
+      let excitement = Math.exp(-this.distance(pos) / 200)
+      // this.excitement = Math.max(this.excitement, excitement)
+      this.excitement += excitement
     }
   }
 
   _isOnSight(pos) {
     let dx = pos.x - this.mountPoint.x;
     let dy = pos.y - this.mountPoint.y;
-    let alpha = Math.atan2(dy, dx) * 180 / Math.PI;
-    if((this.direction - this.vision / 2) <= alpha && alpha <= (this.direction + this.vision / 2)){
+    let alpha = (360 + Math.atan2(dy, dx) * 180 / Math.PI) % 360;
+    if((360 + (this.direction - this.vision / 2)) % 360 <= alpha && alpha <= (360 + (this.direction + this.vision / 2)) % 360) {
       return true;
     }
     return false;
