@@ -55,6 +55,9 @@ Renderer.prototype = {
     s.sensors["food"].forEach(function(sensor, i) {
       this.renderSensor(s, sensor)
     }, this)
+		s.sensors["wall"].forEach(function(sensor, i) {
+      this.renderSensor(s, sensor)
+    }, this)
   },
   renderFood : function(f) {
     this.renderFoodLife(f)
@@ -72,7 +75,6 @@ Renderer.prototype = {
   renderSensor: function(snake, sensor) {
     let start_alpha = (sensor.getDirection() - sensor.vision / 2) * Math.PI / 180
     let end_alpha = (sensor.getDirection() + sensor.vision / 2) * Math.PI / 180
-    //this.renderArc(sensor.mountPoint, 'rgba(200,50,50,0.3)', 'rgba(200,50,50,0.3)', 50, 1, start_alpha, end_alpha, false)
     var grd=this.ctx.createRadialGradient(sensor.mount.pos.x, sensor.mount.pos.y, 5, sensor.mount.pos.x, sensor.mount.pos.y, 100);
     grd.addColorStop(0,"rgba(200,50,50,0.3)");
     grd.addColorStop(1,"rgba(200,50,50,0)");

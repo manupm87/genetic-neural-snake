@@ -12,12 +12,12 @@ class Game {
 
   initialize() {
     this.snakes.push(new Snake({x: 100, y: 50}, 0))
-    this.snakes[0].mountSensors(KIND_FOOD)
+    this.snakes[0].mountSensors()
   }
 
   restart() {
     this.snakes[0] = new Snake({x: 100, y: 50}, 0)
-    this.snakes[0].mountSensors(KIND_FOOD)
+    this.snakes[0].mountSensors()
   }
 
   spawnFood(){

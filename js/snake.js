@@ -33,19 +33,24 @@ class Snake {
     this.direction = direction;
   }
 
-  mountSensors(type) {
+  mountSensors() {
     for (var i = 0; i < NUM_SENSORS; i++) {
       let vision = (SNAKE_VISION / NUM_SENSORS) * (1 + SNAKE_SENSOR_OVERLAP)
       let dir = - SNAKE_VISION / 2 + i * SNAKE_VISION / NUM_SENSORS + vision / 2
-      if (type == KIND_FOOD){
-        this.sensors["food"].push(new Sensor(this.head, dir, type, vision))
-      }
+
+      this.sensors["food"].push(new Sensor(this.head, dir, KIND_FOOD, vision))
+
+      this.sensors["wall"].push(new Sensor(this.head, dir, KIND_WALL, vision))
+
       // TODO: mount other sensors
     }
   }
 
   scanWorld(world) {
     this.sensors["food"].forEach(function (s,i){
+      s.scan(world)
+    })
+    this.sensors["wall"].forEach(function (s,i){
       s.scan(world)
     })
   }
@@ -58,6 +63,9 @@ class Snake {
       this.direction = this.head.direction = (360 + (this.direction - (STEERING_SPEED * (dt / 1000)))) % 360;
     }
     this.sensors["food"].forEach(function(s, i) {
+      s.direction = (360 + (s.ini_direction + this.direction)) % 360
+    }, this)
+    this.sensors["wall"].forEach(function(s, i) {
       s.direction = (360 + (s.ini_direction + this.direction)) % 360
     }, this)
   }

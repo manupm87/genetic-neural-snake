@@ -39,12 +39,49 @@ class Sensor {
       }, this)
     }
     //TODO: Check walls and self body.
+    if (this.kind == KIND_WALL) {
+      let d = 2 * (WORLD_WIDTH + WORLD_HEIGHT)
+      if (0 < this.direction && this.direction < 180){
+        d = Math.min(d, this.getDistanceToWall("bottom"))
+      }
+      if (90 < this.direction && this.direction < 270){
+        d = Math.min(d, this.getDistanceToWall("left"))
+      }
+      if (180< this.direction && this.direction < 360){
+        d = Math.min(d, this.getDistanceToWall("top"))
+      }
+      if (this.direction > 270 || this.direction < 90){
+        d = Math.min(d, this.getDistanceToWall("right"))
+      }
+
+      this.excitement = Math.exp(-d / 200)
+
+    }
+  }
+
+  getDistanceToWall(wall) {
+    switch (wall) {
+      case "bottom":
+        return (WORLD_HEIGHT - this.mountPoint.y) / Math.sin(this.direction * Math.PI / 180)
+        break;
+      case "top":
+        return (0 - this.mountPoint.y) / Math.sin(this.direction * Math.PI / 180)
+        break;
+      case "left":
+        return (0 - this.mountPoint.x) / Math.cos(this.direction * Math.PI / 180)
+        break;
+      case "right":
+        return (WORLD_WIDTH - this.mountPoint.x) / Math.cos(this.direction * Math.PI / 180)
+        break;
+      default:
+        return null
+
+    }
   }
 
   _computeValueForPos(pos) {
     if (this._isOnSight(pos)) {
       let excitement = Math.exp(-this.distance(pos) / 200)
-      // this.excitement = Math.max(this.excitement, excitement)
       this.excitement += excitement
     }
   }
@@ -53,8 +90,13 @@ class Sensor {
     let dx = pos.x - this.mountPoint.x;
     let dy = pos.y - this.mountPoint.y;
     let alpha = (360 + Math.atan2(dy, dx) * 180 / Math.PI) % 360;
-    if((360 + (this.direction - this.vision / 2)) % 360 <= alpha && alpha <= (360 + (this.direction + this.vision / 2)) % 360) {
+    let a_small = (360 + (this.direction - this.vision / 2)) % 360;
+    let a_big = (360 + (this.direction + this.vision / 2)) % 360;
+    if(a_small <= alpha && alpha <= a_big) {
       return true;
+    }
+    else if (a_big < a_small) {
+      return alpha >= a_small || alpha <= a_big;
     }
     return false;
   }
