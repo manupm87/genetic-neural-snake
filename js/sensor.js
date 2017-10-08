@@ -33,12 +33,15 @@ class Sensor {
 
   scan(world) {
     this.excitement = 0
+
+    // FOOD
     if (this.kind == KIND_FOOD){
       world.food.forEach(function(f, i){
         this._computeValueForPos(f.pos);
       }, this)
     }
-    //TODO: Check walls and self body.
+
+    // WALLS
     if (this.kind == KIND_WALL) {
       let d = 2 * (WORLD_WIDTH + WORLD_HEIGHT)
       if (0 < this.direction && this.direction < 180){
@@ -53,10 +56,16 @@ class Sensor {
       if (this.direction > 270 || this.direction < 90){
         d = Math.min(d, this.getDistanceToWall("right"))
       }
-
       this.excitement = Math.exp(-d / 200)
-
     }
+
+    // SELF BODY
+    if (this.kind == KIND_SELF) {
+      world.snake.body.forEach(function(bp, i){
+        this._computeValueForPos(bp.pos);
+      }, this)
+    }
+
   }
 
   getDistanceToWall(wall) {
@@ -82,13 +91,17 @@ class Sensor {
   _computeValueForPos(pos) {
     if (this._isOnSight(pos)) {
       let excitement = Math.exp(-this.distance(pos) / 200)
-      this.excitement += excitement
+      // this.excitement += excitement
+      this.excitement = Math.max(excitement, this.excitement)
     }
   }
 
   _isOnSight(pos) {
     let dx = pos.x - this.mountPoint.x;
     let dy = pos.y - this.mountPoint.y;
+    if( dx == 0 && dy == 0){
+      return false;
+    }
     let alpha = (360 + Math.atan2(dy, dx) * 180 / Math.PI) % 360;
     let a_small = (360 + (this.direction - this.vision / 2)) % 360;
     let a_big = (360 + (this.direction + this.vision / 2)) % 360;

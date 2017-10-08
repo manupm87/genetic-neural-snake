@@ -39,8 +39,8 @@ class Snake {
       let dir = - SNAKE_VISION / 2 + i * SNAKE_VISION / NUM_SENSORS + vision / 2
 
       this.sensors["food"].push(new Sensor(this.head, dir, KIND_FOOD, vision))
-
       this.sensors["wall"].push(new Sensor(this.head, dir, KIND_WALL, vision))
+      this.sensors["self"].push(new Sensor(this.head, dir, KIND_SELF, vision))
 
       // TODO: mount other sensors
     }
@@ -51,6 +51,9 @@ class Snake {
       s.scan(world)
     })
     this.sensors["wall"].forEach(function (s,i){
+      s.scan(world)
+    })
+    this.sensors["self"].forEach(function (s,i){
       s.scan(world)
     })
   }
@@ -66,6 +69,9 @@ class Snake {
       s.direction = (360 + (s.ini_direction + this.direction)) % 360
     }, this)
     this.sensors["wall"].forEach(function(s, i) {
+      s.direction = (360 + (s.ini_direction + this.direction)) % 360
+    }, this)
+    this.sensors["self"].forEach(function(s, i) {
       s.direction = (360 + (s.ini_direction + this.direction)) % 360
     }, this)
   }

@@ -46,7 +46,7 @@ class Game {
         }
       })
       s.turn(othis.controls.right, othis.controls.left);
-      s.scanWorld({food: othis.food})
+      s.scanWorld({food: othis.food, snake: s})
       s.moveForward();
     })
     // Food loop:
