@@ -68,13 +68,13 @@ Renderer.prototype = {
 		this.ctx.fill();
 
 		s.sensors["food"].forEach(function(sensor, i) {
-      this.renderSensor(s, sensor, 'rgba(200,250,250,0.3)')
+      this.renderSensor(s, sensor, 'rgba(200,250,250,0.6)')
     }, this)
 		s.sensors["wall"].forEach(function(sensor, i) {
-      this.renderSensor(s, sensor, 'rgba(250,200,250,0.3)')
+      this.renderSensor(s, sensor, 'rgba(250,200,250,0.6)')
     }, this)
 		s.sensors["self"].forEach(function(sensor, i) {
-      this.renderSensor(s, sensor, 'rgba(250,250,200,0.3)')
+      this.renderSensor(s, sensor, 'rgba(250,250,200,0.6)')
     }, this)
 	},
   renderFood : function(f) {
