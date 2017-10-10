@@ -48,7 +48,12 @@ class Game {
           s.grow();
         }
       })
-      s.turn(othis.controls.right, othis.controls.left);
+      if(i==0){
+        s.turn(othis.controls.right, othis.controls.left);
+      }
+      else{
+        s.turn()
+      }
       s.scanWorld({food: othis.food, snake: s})
       s.moveForward();
     })

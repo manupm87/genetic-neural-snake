@@ -1,5 +1,7 @@
 var s = require('./sensor')
 
+var net = require('./neural/neuralNet')
+
 NUM_SENSORS = 12
 SNAKE_VISION = 240
 SNAKE_SENSOR_OVERLAP = 0.05
@@ -29,6 +31,7 @@ class BodyPart{
 class Snake {
   constructor(pos, direction) {
     this.head = new BodyPart({x: pos.x, y: pos.y}, direction);
+    this.brain = new net.NeuralNet();
     this.sensors = {"food": [], "wall": [], "self": []}
     this.body = [this.head]
     this.tail = null
@@ -48,16 +51,37 @@ class Snake {
     }
   }
 
+  initBrain(){
+    this.sensors["food"].forEach(function(s, i){
+      this.brain.addInput(s.excitement)
+    }, this)
+    this.sensors["wall"].forEach(function(s, i){
+      this.brain.addInput(s.excitement)
+    }, this)
+    this.sensors["self"].forEach(function(s, i){
+      this.brain.addInput(s.excitement)
+    }, this)
+
+    this.brain.addHiddenLayer(10)
+    this.brain.addHiddenLayer(5)
+    this.brain.addOutputLayer(2)
+    this.brain.randomize(10)
+  }
+
   scanWorld(world) {
     this.sensors["food"].forEach(function (s,i){
       s.scan(world)
-    })
+      this.brain.setInput(s.excitement)
+    }, this)
     this.sensors["wall"].forEach(function (s,i){
       s.scan(world)
-    })
+      this.brain.setInput(s.excitement)
+    }, this)
     this.sensors["self"].forEach(function (s,i){
       s.scan(world)
-    })
+      this.brain.setInput(s.excitement)
+    }, this)
+    this.brain.activate()
   }
 
   turn(right, left) {

@@ -2,7 +2,6 @@ class Renderer {
 	constructor(canvas) {
 		this.ctx = canvas.getContext('2d');
 		this.center = canvas.width / 2;
-
 	}
 
   renderCircle(p, fillColor, strokeColor, radius, lineWidth) {

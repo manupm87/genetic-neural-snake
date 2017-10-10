@@ -6,5 +6,8 @@
     "babel": "^6.23.0",
     "browserify": "^14.4.0",
     "mocha": "^3.5.3"
+  },
+  "devDependencies": {
+    "watchify": "^3.9.0"
   }
 }
