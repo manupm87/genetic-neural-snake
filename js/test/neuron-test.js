@@ -1,4 +1,4 @@
-var n = require('../neural/neuralNet')
+var n = require('../neural/neuron')
 var assert = require('assert');
 
 describe('Neuron', function() {

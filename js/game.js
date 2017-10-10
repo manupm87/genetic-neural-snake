@@ -1,3 +1,6 @@
+var s = require('./snake')
+var f = require('./food')
+
 dt = 20 // milliseconds (rendering freq.)
 SIMULTANEUS_FOOD = 5
 MOUTH_SIZE = 20
@@ -11,19 +14,19 @@ class Game {
   }
 
   initialize() {
-    this.snakes.push(new Snake({x: 100, y: 50}, 0))
+    this.snakes.push(new s.Snake({x: 100, y: 50}, 0))
     this.snakes[0].mountSensors()
   }
 
   restart() {
-    this.snakes[0] = new Snake({x: 100, y: 50}, 0)
+    this.snakes[0] = new s.Snake({x: 100, y: 50}, 0)
     this.snakes[0].mountSensors()
   }
 
   spawnFood(){
     let rand_x = 2 * WALL_THICKNESS + parseInt((WORLD_WIDTH - 4 * WALL_THICKNESS) * Math.random())
     let rand_y = 2 * WALL_THICKNESS + parseInt((WORLD_HEIGHT - 4 * WALL_THICKNESS) * Math.random())
-    this.food.push(new Food({x: rand_x, y: rand_y}, 10))
+    this.food.push(new f.Food({x: rand_x, y: rand_y}, 10))
   }
 
   start() {
@@ -87,4 +90,8 @@ class Game {
   _distance(p1, p2) {
     return Math.sqrt(Math.pow(p1.x - p2.x, 2) + Math.pow(p1.y - p2.y, 2))
   }
+}
+
+module.exports = {
+  Game: Game
 }

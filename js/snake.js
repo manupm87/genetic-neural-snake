@@ -1,3 +1,5 @@
+var s = require('./sensor')
+
 NUM_SENSORS = 12
 SNAKE_VISION = 240
 SNAKE_SENSOR_OVERLAP = 0.05
@@ -38,9 +40,9 @@ class Snake {
       let vision = (SNAKE_VISION / NUM_SENSORS) * (1 + SNAKE_SENSOR_OVERLAP)
       let dir = - SNAKE_VISION / 2 + i * SNAKE_VISION / NUM_SENSORS + vision / 2
 
-      this.sensors["food"].push(new Sensor(this.head, dir, KIND_FOOD, vision))
-      this.sensors["wall"].push(new Sensor(this.head, dir, KIND_WALL, vision))
-      this.sensors["self"].push(new Sensor(this.head, dir, KIND_SELF, vision))
+      this.sensors["food"].push(new s.Sensor(this.head, dir, KIND_FOOD, vision))
+      this.sensors["wall"].push(new s.Sensor(this.head, dir, KIND_WALL, vision))
+      this.sensors["self"].push(new s.Sensor(this.head, dir, KIND_SELF, vision))
 
       // TODO: mount other sensors
     }
