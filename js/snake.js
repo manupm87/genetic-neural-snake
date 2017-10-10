@@ -37,6 +37,8 @@ class Snake {
     this.tail = null
     this.direction = direction;
     this.isAlive = true
+    this.score = 0
+    this.life = SNAKE_LIFE
   }
 
   mountSensors() {
@@ -67,6 +69,13 @@ class Snake {
     this.brain.addHiddenLayer(5)
     this.brain.addOutputLayer(2)
     this.brain.randomize(10)
+  }
+
+  spendLife(){
+    this.life -= (dt / 1000)
+    if(this.life <= 0){
+      this.isAlive = false
+    }
   }
 
   scanWorld(world) {
@@ -138,7 +147,8 @@ class Snake {
     let pos_x = last_body_part.pos.x - BONE_SIZE * Math.cos(last_body_part.direction * Math.PI / 180)
     let pos_y = last_body_part.pos.y - BONE_SIZE * Math.sin(last_body_part.direction * Math.PI / 180)
     this.body.push(new BodyPart({x: pos_x, y: pos_y}, last_body_part.direction))
-    console.log("ATE!")
+    this.life = SNAKE_LIFE
+    this.score++
   }
 }
 

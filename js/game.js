@@ -5,7 +5,7 @@ dt = 20 // milliseconds (rendering freq.)
 SIMULTANEUS_FOOD = 5
 MOUTH_SIZE = 20
 WALL_THICKNESS = 20
-POPULATION_SIZE = 21
+POPULATION_SIZE = 51
 
 class Game {
   constructor(){
@@ -64,6 +64,7 @@ class Game {
         }
         s.scanWorld({food: othis.food, snake: s})
         s.moveForward();
+        s.spendLife()
       }
     })
     if(!snakes_alive){

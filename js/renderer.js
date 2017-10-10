@@ -58,6 +58,7 @@ class Renderer {
 	    }, this)
 		}
 		else {
+	    // this.renderSensors(s)
 			s.body.forEach(function(b, i){
 	      if(i===0){
 	        this.renderCircle(b.pos, 'rgba(200,250,250,0.3)', 'rgba(50,50,50,0.3)', 12, 5)
@@ -112,7 +113,7 @@ class Renderer {
   }
 	renderGame(game) {
     this.clearCanvas();
-    this.renderSize(game.snakes[0].body.length)
+    this.renderSize(game.snakes[0].score)
     game.snakes.forEach(function(s, i){
 			if(s.isAlive){
 				if (i === 0){
