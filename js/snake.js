@@ -36,6 +36,7 @@ class Snake {
     this.body = [this.head]
     this.tail = null
     this.direction = direction;
+    this.isAlive = true
   }
 
   mountSensors() {
@@ -71,15 +72,15 @@ class Snake {
   scanWorld(world) {
     this.sensors["food"].forEach(function (s,i){
       s.scan(world)
-      this.brain.setInput(s.excitement)
+      this.brain.setInput(i, s.excitement)
     }, this)
     this.sensors["wall"].forEach(function (s,i){
       s.scan(world)
-      this.brain.setInput(s.excitement)
+      this.brain.setInput(NUM_SENSORS + i, s.excitement)
     }, this)
     this.sensors["self"].forEach(function (s,i){
       s.scan(world)
-      this.brain.setInput(s.excitement)
+      this.brain.setInput(2 * NUM_SENSORS + i, s.excitement)
     }, this)
     this.brain.activate()
   }

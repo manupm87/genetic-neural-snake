@@ -1,10 +1,11 @@
-var s = require('./snake')
+var snake = require('./snake')
 var f = require('./food')
 
 dt = 20 // milliseconds (rendering freq.)
 SIMULTANEUS_FOOD = 5
 MOUTH_SIZE = 20
 WALL_THICKNESS = 20
+POPULATION_SIZE = 5
 
 class Game {
   constructor(){
@@ -14,13 +15,18 @@ class Game {
   }
 
   initialize() {
-    this.snakes.push(new s.Snake({x: 100, y: 50}, 0))
-    this.snakes[0].mountSensors()
+    this.snakes = []
+    for (var i = 0; i < POPULATION_SIZE; i++) {
+      let s = new snake.Snake({x: 100, y: 50}, 0)
+      s.mountSensors()
+      s.initBrain()
+      this.snakes.push(s)
+    }
   }
 
+// TODO: REFACTOR RESTART
   restart() {
-    this.snakes[0] = new s.Snake({x: 100, y: 50}, 0)
-    this.snakes[0].mountSensors()
+    this.initialize()
   }
 
   spawnFood(){
@@ -37,26 +43,32 @@ class Game {
   }
 
   gameLoop(othis) {
+    let snakes_alive = false
     othis.snakes.forEach(function(s, i) {
+      snakes_alive = s.isAlive || snakes_alive
+      if(s.isAlive){
+        othis.checkWalls(s)
+        othis.checkSelf(s)
 
-      othis.checkWalls(s)
-      othis.checkSelf(s)
-
-      othis.food.forEach(function(f, j) {
-        if (othis._distance(s.head.pos, f.pos) < MOUTH_SIZE) {
-          othis.food.splice(j, 1);
-          s.grow();
+        othis.food.forEach(function(f, j) {
+          if (othis._distance(s.head.pos, f.pos) < MOUTH_SIZE) {
+            othis.food.splice(j, 1);
+            s.grow();
+          }
+        })
+        if(i==0){
+          s.turn(othis.controls.right, othis.controls.left);
         }
-      })
-      if(i==0){
-        s.turn(othis.controls.right, othis.controls.left);
+        else{
+          s.turn(s.brain.output[1] > 0.4, s.brain.output[0] > 0.4)
+        }
+        s.scanWorld({food: othis.food, snake: s})
+        s.moveForward();
       }
-      else{
-        s.turn()
-      }
-      s.scanWorld({food: othis.food, snake: s})
-      s.moveForward();
     })
+    if(!snakes_alive){
+      othis.restart()
+    }
     // Food loop:
     othis.food.forEach(function(f, i) {
       f.decreaseLifeTime(dt / 1000)
@@ -72,16 +84,16 @@ class Game {
 
   checkWalls(s) {
     if (s.head.pos.x < WALL_THICKNESS / 2 || s.head.pos.x > WORLD_WIDTH - WALL_THICKNESS / 2)
-      this.restart()
+      s.isAlive = false
     else if (s.head.pos.y < WALL_THICKNESS / 2 || s.head.pos.y > WORLD_HEIGHT - WALL_THICKNESS / 2) {
-      this.restart()
+      s.isAlive = false
     }
   }
 
   checkSelf(s) {
     s.body.forEach(function(b, i){
       if (i > 2 && this._distance(s.head.pos, b.pos) < BONE_SIZE)
-        this.restart()
+        s.isAlive = false
     }, this)
   }
 

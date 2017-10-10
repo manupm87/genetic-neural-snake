@@ -1,3 +1,6 @@
+PLAYER = 0
+BOT = 1
+
 class Renderer {
 	constructor(canvas) {
 		this.ctx = canvas.getContext('2d');
@@ -42,16 +45,28 @@ class Renderer {
   clearCanvas() {
 		this.ctx.clearRect(0, 0, this.ctx.canvas.clientWidth, this.ctx.canvas.clientHeight);
 	}
-  renderSnake(s) {
-    this.renderSensors(s)
-    s.body.forEach(function(b, i){
-      if(i===0){
-        this.renderCircle(b.pos, 'aqua', 'black', 12, 5)
-      }
-      else {
-        this.renderCircle(b.pos, 'blue', 'black', 10, 5)
-      }
-    }, this)
+  renderSnake(s, controller) {
+		if(controller == PLAYER){
+	    this.renderSensors(s)
+	    s.body.forEach(function(b, i){
+	      if(i===0){
+	        this.renderCircle(b.pos, 'aqua', 'black', 12, 5)
+	      }
+	      else {
+	        this.renderCircle(b.pos, 'blue', 'black', 10, 5)
+	      }
+	    }, this)
+		}
+		else {
+			s.body.forEach(function(b, i){
+	      if(i===0){
+	        this.renderCircle(b.pos, 'rgba(200,250,250,0.3)', 'rgba(50,50,50,0.3)', 12, 5)
+	      }
+	      else {
+	        this.renderCircle(b.pos, 'rgba(200,200,250,0.3)', 'rgba(50,50,50,0.3)', 10, 5)
+	      }
+	    }, this)
+		}
   }
 	renderSensors(s) {
 		let start_alpha = (s.direction - SNAKE_VISION / 2) * Math.PI / 180
@@ -99,7 +114,14 @@ class Renderer {
     this.clearCanvas();
     this.renderSize(game.snakes[0].body.length)
     game.snakes.forEach(function(s, i){
-      this.renderSnake(s)
+			if(s.isAlive){
+				if (i === 0){
+					this.renderSnake(s, PLAYER)
+				}
+				else {
+	      	this.renderSnake(s, BOT)
+				}
+			}
     }, this);
     game.food.forEach(function(f, i){
       this.renderFood(f);
