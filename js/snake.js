@@ -1,3 +1,7 @@
+var s = require('./sensor')
+
+var net = require('./neural/neuralNet')
+
 NUM_SENSORS = 12
 SNAKE_VISION = 240
 SNAKE_SENSOR_OVERLAP = 0.05
@@ -27,10 +31,12 @@ class BodyPart{
 class Snake {
   constructor(pos, direction) {
     this.head = new BodyPart({x: pos.x, y: pos.y}, direction);
+    this.brain = new net.NeuralNet();
     this.sensors = {"food": [], "wall": [], "self": []}
     this.body = [this.head]
     this.tail = null
     this.direction = direction;
+    this.isAlive = true
   }
 
   mountSensors() {
@@ -38,24 +44,45 @@ class Snake {
       let vision = (SNAKE_VISION / NUM_SENSORS) * (1 + SNAKE_SENSOR_OVERLAP)
       let dir = - SNAKE_VISION / 2 + i * SNAKE_VISION / NUM_SENSORS + vision / 2
 
-      this.sensors["food"].push(new Sensor(this.head, dir, KIND_FOOD, vision))
-      this.sensors["wall"].push(new Sensor(this.head, dir, KIND_WALL, vision))
-      this.sensors["self"].push(new Sensor(this.head, dir, KIND_SELF, vision))
+      this.sensors["food"].push(new s.Sensor(this.head, dir, KIND_FOOD, vision))
+      this.sensors["wall"].push(new s.Sensor(this.head, dir, KIND_WALL, vision))
+      this.sensors["self"].push(new s.Sensor(this.head, dir, KIND_SELF, vision))
 
       // TODO: mount other sensors
     }
   }
 
+  initBrain(){
+    this.sensors["food"].forEach(function(s, i){
+      this.brain.addInput(s.excitement)
+    }, this)
+    this.sensors["wall"].forEach(function(s, i){
+      this.brain.addInput(s.excitement)
+    }, this)
+    this.sensors["self"].forEach(function(s, i){
+      this.brain.addInput(s.excitement)
+    }, this)
+
+    this.brain.addHiddenLayer(10)
+    this.brain.addHiddenLayer(5)
+    this.brain.addOutputLayer(2)
+    this.brain.randomize(10)
+  }
+
   scanWorld(world) {
     this.sensors["food"].forEach(function (s,i){
       s.scan(world)
-    })
+      this.brain.setInput(i, s.excitement)
+    }, this)
     this.sensors["wall"].forEach(function (s,i){
       s.scan(world)
-    })
+      this.brain.setInput(NUM_SENSORS + i, s.excitement)
+    }, this)
     this.sensors["self"].forEach(function (s,i){
       s.scan(world)
-    })
+      this.brain.setInput(2 * NUM_SENSORS + i, s.excitement)
+    }, this)
+    this.brain.activate()
   }
 
   turn(right, left) {

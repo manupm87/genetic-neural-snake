@@ -1,9 +1,12 @@
+var g = require('./game')
+var r = require('./renderer')
+
 RENDER_FREQ = 20;
 
 function init() {
   var canvas = document.getElementById("canvas");
-	var renderer = new Renderer(canvas);
-  var game = new Game();
+	var renderer = new r.Renderer(canvas);
+  var game = new g.Game();
   setEvents(game);
   game.initialize();
   window.setInterval(function() {
