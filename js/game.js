@@ -5,7 +5,7 @@ dt = 20 // milliseconds (rendering freq.)
 SIMULTANEUS_FOOD = 5
 MOUTH_SIZE = 20
 WALL_THICKNESS = 20
-POPULATION_SIZE = 5
+POPULATION_SIZE = 21
 
 class Game {
   constructor(){

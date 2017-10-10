@@ -8,7 +8,7 @@ SNAKE_SENSOR_OVERLAP = 0.05
 SNAKE_SPEED = 200 //px per second
 STEERING_SPEED = 360 // degrees per second
 BONE_SIZE = 20
-dt = 200 // milliseconds (rendering freq.)
+SNAKE_LIFE = 10
 
 WORLD_WIDTH=600
 WORLD_HEIGHT=400
