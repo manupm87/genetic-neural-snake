@@ -1,9 +1,11 @@
 var g = require('./game')
 var r = require('./renderer')
 
+
 RENDER_FREQ = 30;
 
 function init() {
+
   var canvas = document.getElementById("canvas");
 	var renderer = new r.Renderer(canvas);
   var game = new g.Game();
@@ -12,7 +14,7 @@ function init() {
   window.setInterval(function() {
 		renderer.renderGame(game);
 	}, RENDER_FREQ);
-
+  // ReactDOM.render(<leaderboard.SnakeList snakes={game.snakes}/>, document.getElementById('hello'));
   game.start()
 }
 

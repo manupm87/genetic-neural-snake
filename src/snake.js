@@ -29,7 +29,8 @@ class BodyPart{
 
 
 class Snake {
-  constructor(pos, direction) {
+  constructor(pos, direction, id) {
+    this.id = id
     this.head = new BodyPart({x: pos.x, y: pos.y}, direction);
     this.brain = new net.NeuralNet();
     this.sensors = {"food": [], "wall": [], "self": []}
@@ -74,8 +75,13 @@ class Snake {
   spendLife(){
     this.life -= (dt / 1000)
     if(this.life <= 0){
-      this.isAlive = false
+      this.die()
     }
+  }
+
+  die(){
+    this.isAlive = false
+    this.life = 0
   }
 
   scanWorld(world) {

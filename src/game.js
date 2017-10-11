@@ -1,5 +1,8 @@
 var snake = require('./snake')
 var f = require('./food')
+var leaderboard = require("./react_components/leaderboard.js")
+var React = require('react')
+var ReactDOM = require('react-dom')
 
 dt = 30 // milliseconds (rendering freq.)
 SIMULTANEUS_FOOD = 5
@@ -17,7 +20,7 @@ class Game {
   initialize() {
     this.snakes = []
     for (var i = 0; i < POPULATION_SIZE; i++) {
-      let s = new snake.Snake({x: 100, y: 50}, 0)
+      let s = new snake.Snake({x: 100, y: 50}, 0, i)
       s.mountSensors()
       s.initBrain()
       this.snakes.push(s)
@@ -43,12 +46,11 @@ class Game {
   }
 
   gameLoop(othis) {
+    ReactDOM.render(<leaderboard.SnakeList snakes={othis.snakes}/>, document.getElementById('hello'));
     let snakes_alive = false
     othis.snakes.forEach(function(s, i) {
       snakes_alive = s.isAlive || snakes_alive
       if(s.isAlive){
-        othis.checkWalls(s)
-        othis.checkSelf(s)
 
         othis.food.forEach(function(f, j) {
           if (othis._distance(s.head.pos, f.pos) < MOUTH_SIZE) {
@@ -65,6 +67,9 @@ class Game {
         s.scanWorld({food: othis.food, snake: s})
         s.moveForward();
         s.spendLife()
+
+        othis.checkWalls(s)
+        othis.checkSelf(s)
       }
     })
     if(!snakes_alive){
@@ -84,17 +89,19 @@ class Game {
   }
 
   checkWalls(s) {
-    if (s.head.pos.x < WALL_THICKNESS / 2 || s.head.pos.x > WORLD_WIDTH - WALL_THICKNESS / 2)
-      s.isAlive = false
+    if (s.head.pos.x < WALL_THICKNESS / 2 || s.head.pos.x > WORLD_WIDTH - WALL_THICKNESS / 2){
+      s.die()
+    }
     else if (s.head.pos.y < WALL_THICKNESS / 2 || s.head.pos.y > WORLD_HEIGHT - WALL_THICKNESS / 2) {
-      s.isAlive = false
+      s.die()
     }
   }
 
   checkSelf(s) {
     s.body.forEach(function(b, i){
-      if (i > 2 && this._distance(s.head.pos, b.pos) < BONE_SIZE)
-        s.isAlive = false
+      if (i > 2 && this._distance(s.head.pos, b.pos) < BONE_SIZE){
+        s.die()
+      }
     }, this)
   }
 
