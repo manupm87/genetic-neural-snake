@@ -1,7 +1,7 @@
 var snake = require('./snake')
 var f = require('./food')
 
-dt = 20 // milliseconds (rendering freq.)
+dt = 30 // milliseconds (rendering freq.)
 SIMULTANEUS_FOOD = 5
 MOUTH_SIZE = 20
 WALL_THICKNESS = 20

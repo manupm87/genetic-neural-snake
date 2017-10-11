@@ -1,7 +1,7 @@
 var g = require('./game')
 var r = require('./renderer')
 
-RENDER_FREQ = 20;
+RENDER_FREQ = 30;
 
 function init() {
   var canvas = document.getElementById("canvas");
