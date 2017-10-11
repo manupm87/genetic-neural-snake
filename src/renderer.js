@@ -116,7 +116,7 @@ class Renderer {
     this.renderSize(game.snakes[0].score)
     game.snakes.forEach(function(s, i){
 			if(s.isAlive){
-				if (i === 0){
+				if (s.id === 0){
 					this.renderSnake(s, PLAYER)
 				}
 				else {

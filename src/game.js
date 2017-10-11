@@ -1,8 +1,6 @@
 var snake = require('./snake')
 var f = require('./food')
-var leaderboard = require("./react_components/leaderboard.js")
-var React = require('react')
-var ReactDOM = require('react-dom')
+
 
 dt = 30 // milliseconds (rendering freq.)
 SIMULTANEUS_FOOD = 5
@@ -46,7 +44,7 @@ class Game {
   }
 
   gameLoop(othis) {
-    ReactDOM.render(<leaderboard.SnakeList snakes={othis.snakes}/>, document.getElementById('hello'));
+    //ReactDOM.render(<leaderboard.SnakeList snakes={othis.snakes}/>, document.getElementById('hello'));
     let snakes_alive = false
     othis.snakes.forEach(function(s, i) {
       snakes_alive = s.isAlive || snakes_alive
@@ -58,7 +56,7 @@ class Game {
             s.grow();
           }
         })
-        if(i==0){
+        if(s.id==0){
           s.turn(othis.controls.right, othis.controls.left);
         }
         else{

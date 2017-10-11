@@ -1,6 +1,8 @@
 var g = require('./game')
 var r = require('./renderer')
-
+var leaderboard = require("./react_components/leaderboard.js")
+var React = require('react')
+var ReactDOM = require('react-dom')
 
 RENDER_FREQ = 30;
 
@@ -14,6 +16,9 @@ function init() {
   window.setInterval(function() {
 		renderer.renderGame(game);
 	}, RENDER_FREQ);
+  window.setInterval(function() {
+		ReactDOM.render(<leaderboard.SnakeList snakes={game.snakes}/>, document.getElementById('hello'));
+	}, 200);
   // ReactDOM.render(<leaderboard.SnakeList snakes={game.snakes}/>, document.getElementById('hello'));
   game.start()
 }

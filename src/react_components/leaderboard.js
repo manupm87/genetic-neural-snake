@@ -20,6 +20,7 @@ class Snake extends React.Component {
 
 class SnakeList extends React.Component {
   render() {
+    let sorted_snakes = this.props.snakes.sort((a, b) => ((10000 * b.score + 100 * b.life - b.id) - (10000 * a.score + 100 * a.life - a.id)))
     return (
       <table>
         <tr>
@@ -28,9 +29,14 @@ class SnakeList extends React.Component {
           <th>Life</th>
         </tr>
         {
-          this.props.snakes.map((snake, index) => (
-           <Snake snake={snake}/>
-        ))}
+          sorted_snakes.map(function(snake, index) {
+
+            if(index < 15){
+              return(
+              <Snake snake={snake}/>)
+            }
+          })
+        }
       </table>
     );
   }
