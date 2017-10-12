@@ -23,20 +23,24 @@ export class SnakeList extends React.Component {
     let sorted_snakes = this.props.snakes.sort((a, b) => ((10000 * b.score + 100 * b.life - b.id) - (10000 * a.score + 100 * a.life - a.id)))
     return (
       <table>
-        <tr>
-          <th>Id</th>
-          <th>Score</th>
-          <th>Life</th>
-        </tr>
+        <thead>
+          <tr>
+            <th>Id</th>
+            <th>Score</th>
+            <th>Life</th>
+          </tr>
+        </thead>
+        <tbody>
         {
           sorted_snakes.map(function(snake, index) {
 
             if(index < 15){
               return(
-              <Snake snake={snake}/>)
+              <Snake snake={snake} key={index} />)
             }
           })
         }
+        </tbody>
       </table>
     );
   }
