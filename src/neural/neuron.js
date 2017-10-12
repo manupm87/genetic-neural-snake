@@ -1,8 +1,10 @@
-class Neuron {
+import * as c from '../constants'
+
+export class Neuron {
   constructor(){
-    this.kind = TYPE_INPUT
+    this.kind = c.TYPE_INPUT
     this.bias = 0
-    this.activ_f = AF_SIGMOID
+    this.activ_f = c.AF_SIGMOID
     this.weights = []
     this.inputs = []
     this.output = 0
@@ -19,7 +21,7 @@ class Neuron {
   }
 
   activate(){
-    if (this.kind === TYPE_INPUT){
+    if (this.kind === c.TYPE_INPUT){
       return this;
     }
     let pre_output = this.bias
@@ -41,7 +43,7 @@ class Neuron {
   }
 
   randomize(a){
-    if(this.kind != TYPE_INPUT){
+    if(this.kind != c.TYPE_INPUT){
       this.weights.forEach(function(w,i){
         this.weights[i] = -a + 2 * a * Math.random()
       }, this)
@@ -51,8 +53,4 @@ class Neuron {
     return this;
   }
 
-}
-
-module.exports = {
-  Neuron: Neuron
 }

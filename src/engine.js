@@ -1,23 +1,22 @@
-var g = require('./game')
-var r = require('./renderer')
-var leaderboard = require("./react_components/leaderboard.js")
-var React = require('react')
-var ReactDOM = require('react-dom')
-
-RENDER_FREQ = 30;
+import * as c from './constants'
+import {Game} from './game'
+import {Renderer} from './renderer'
+import {SnakeList} from "./react_components/leaderboard.js"
+import React from 'react'
+import ReactDOM from 'react-dom'
 
 function init() {
 
   var canvas = document.getElementById("canvas");
-	var renderer = new r.Renderer(canvas);
-  var game = new g.Game();
+	var renderer = new Renderer(canvas);
+  var game = new Game();
   setEvents(game);
   game.initialize();
   window.setInterval(function() {
 		renderer.renderGame(game);
-	}, RENDER_FREQ);
+	}, c.RENDER_FREQ);
   window.setInterval(function() {
-		ReactDOM.render(<leaderboard.SnakeList snakes={game.snakes}/>, document.getElementById('hello'));
+		ReactDOM.render(<SnakeList snakes={game.snakes}/>, document.getElementById('hello'));
 	}, 200);
   // ReactDOM.render(<leaderboard.SnakeList snakes={game.snakes}/>, document.getElementById('hello'));
   game.start()

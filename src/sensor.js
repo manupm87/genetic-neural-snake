@@ -1,8 +1,6 @@
-KIND_FOOD = 0
-KIND_WALL = 1
-KIND_SELF = 2
+import * as c from './constants'
 
-class Sensor {
+export class Sensor {
   constructor (part, direction, kind, vision) {
     this.kind = kind;
     this.ini_direction = direction;
@@ -35,15 +33,15 @@ class Sensor {
     this.excitement = 0
 
     // FOOD
-    if (this.kind == KIND_FOOD){
+    if (this.kind == c.KIND_FOOD){
       world.food.forEach(function(f, i){
         this._computeValueForPos(f.pos);
       }, this)
     }
 
     // WALLS
-    if (this.kind == KIND_WALL) {
-      let d = 2 * (WORLD_WIDTH + WORLD_HEIGHT)
+    if (this.kind == c.KIND_WALL) {
+      let d = 2 * (c.WORLD_WIDTH + c.WORLD_HEIGHT)
       if (0 < this.direction && this.direction < 180){
         d = Math.min(d, this.getDistanceToWall("bottom"))
       }
@@ -60,7 +58,7 @@ class Sensor {
     }
 
     // SELF BODY
-    if (this.kind == KIND_SELF) {
+    if (this.kind == c.KIND_SELF) {
       world.snake.body.forEach(function(bp, i){
         this._computeValueForPos(bp.pos);
       }, this)
@@ -71,7 +69,7 @@ class Sensor {
   getDistanceToWall(wall) {
     switch (wall) {
       case "bottom":
-        return (WORLD_HEIGHT - this.mountPoint.y) / Math.sin(this.direction * Math.PI / 180)
+        return (c.WORLD_HEIGHT - this.mountPoint.y) / Math.sin(this.direction * Math.PI / 180)
         break;
       case "top":
         return (0 - this.mountPoint.y) / Math.sin(this.direction * Math.PI / 180)
@@ -80,7 +78,7 @@ class Sensor {
         return (0 - this.mountPoint.x) / Math.cos(this.direction * Math.PI / 180)
         break;
       case "right":
-        return (WORLD_WIDTH - this.mountPoint.x) / Math.cos(this.direction * Math.PI / 180)
+        return (c.WORLD_WIDTH - this.mountPoint.x) / Math.cos(this.direction * Math.PI / 180)
         break;
       default:
         return null
@@ -121,7 +119,3 @@ class Sensor {
   }
 
 }
-
-module.exports = {
-    Sensor: Sensor
-};

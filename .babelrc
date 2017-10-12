@@ -1,4 +1,5 @@
 {
   "presets": ["env"],
-  "presets": ["react"]
+  "presets": ["react"],
+  "presets": ["es2015"]
 }

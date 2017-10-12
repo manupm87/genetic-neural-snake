@@ -18,7 +18,7 @@ class Snake extends React.Component {
   }
 }
 
-class SnakeList extends React.Component {
+export class SnakeList extends React.Component {
   render() {
     let sorted_snakes = this.props.snakes.sort((a, b) => ((10000 * b.score + 100 * b.life - b.id) - (10000 * a.score + 100 * a.life - a.id)))
     return (
@@ -40,8 +40,4 @@ class SnakeList extends React.Component {
       </table>
     );
   }
-}
-
-module.exports = {
-  SnakeList: SnakeList
 }

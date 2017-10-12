@@ -1,17 +1,9 @@
-var l = require('./layer')
+import * as c from '../constants.js'
+import {Layer} from './layer'
 
-CONN_FULLY_CONNECTED = 0
-AF_SIGMOID = 0
-AF_RELU = 1
-AF_TANH = 2
-
-TYPE_INPUT = 0
-TYPE_HIDDEN = 1
-TYPE_OUTPUT = 2
-
-class NeuralNet {
+export class NeuralNet {
   constructor(){
-    this.inputLayer = new l.Layer(TYPE_INPUT)
+    this.inputLayer = new Layer(c.TYPE_INPUT)
     this.hiddenLayers = []
     this.outputLayer = null
     this.output = null
@@ -29,27 +21,27 @@ class NeuralNet {
 
   addHiddenLayer(n) {
     //console.log(n)
-    let hl = new l.Layer(TYPE_HIDDEN)
+    let hl = new Layer(c.TYPE_HIDDEN)
     hl.addNeurons(n)
     //console.log(hl)
     this.hiddenLayers.push(hl)
     if (this.hiddenLayers.length == 1){
-      this.hiddenLayers[0].connect(this.inputLayer, CONN_FULLY_CONNECTED)
+      this.hiddenLayers[0].connect(this.inputLayer, c.CONN_FULLY_CONNECTED)
     }
     else {
-      this.hiddenLayers[this.hiddenLayers.length - 1].connect(this.hiddenLayers[this.hiddenLayers.length - 2], CONN_FULLY_CONNECTED)
+      this.hiddenLayers[this.hiddenLayers.length - 1].connect(this.hiddenLayers[this.hiddenLayers.length - 2], c.CONN_FULLY_CONNECTED)
     }
     //console.log(hl)
     return this;
   }
 
   addOutputLayer(n) {
-    this.outputLayer = new l.Layer(TYPE_OUTPUT).addNeurons(n)
+    this.outputLayer = new Layer(c.TYPE_OUTPUT).addNeurons(n)
     if (this.hiddenLayers.length == 0){
-      this.outputLayer.connect(this.inputLayer, CONN_FULLY_CONNECTED)
+      this.outputLayer.connect(this.inputLayer, c.CONN_FULLY_CONNECTED)
     }
     else {
-      this.outputLayer.connect(this.hiddenLayers[this.hiddenLayers.length - 1], CONN_FULLY_CONNECTED)
+      this.outputLayer.connect(this.hiddenLayers[this.hiddenLayers.length - 1], c.CONN_FULLY_CONNECTED)
     }
     this.output = []
     for (var i = 0; i < n; i++) {
@@ -78,7 +70,3 @@ class NeuralNet {
     return this;
   }
 }
-
-module.exports = {
-    NeuralNet: NeuralNet
-};

@@ -1,6 +1,7 @@
-var neuron = require('./neuron')
+import * as c from '../constants.js'
+import {Neuron} from './neuron'
 
-class Layer {
+export class Layer {
   constructor(kind){
     this.kind = kind
     this.neurons = []
@@ -8,13 +9,13 @@ class Layer {
 
   addNeurons(n){
     for (var i = 0; i < n; i++) {
-      this.neurons.push(new neuron.Neuron().setKind(this.kind))
+      this.neurons.push(new Neuron().setKind(this.kind))
     }
     return this;
   }
 
   addInput(x) {
-    this.neurons.push(new neuron.Neuron().setKind(TYPE_INPUT).setOutput(x))
+    this.neurons.push(new Neuron().setKind(c.TYPE_INPUT).setOutput(x))
     return this;
   }
 
@@ -23,7 +24,7 @@ class Layer {
   }
 
   connect(prev_layer, connection) {
-    if (connection === CONN_FULLY_CONNECTED){
+    if (connection === c.CONN_FULLY_CONNECTED){
       this.neurons.forEach(function(n, i){
         prev_layer.neurons.forEach(function(pn, j) {
           n.addInput(pn)
@@ -34,7 +35,7 @@ class Layer {
   }
 
   randomize(a) {
-    if(this.kind != TYPE_INPUT){
+    if(this.kind != c.TYPE_INPUT){
       this.neurons.forEach(function(n, i){
         n.randomize(a)
       })
@@ -48,8 +49,4 @@ class Layer {
     })
   }
 
-}
-
-module.exports = {
-  Layer: Layer
 }

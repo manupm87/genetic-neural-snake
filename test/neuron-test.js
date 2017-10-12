@@ -1,37 +1,37 @@
-var n = require('../neural/neuron')
-var assert = require('assert');
+import * as c from '../src/constants.js'
+import {Neuron} from '../src/neural/neuron'
+import assert from 'assert'
 
 describe('Neuron', function() {
 
   describe('#sigmoid(x)', function() {
     it('should return 0,5 for x = 0', function() {
-      assert.equal(0.5, n.Neuron.sigmoid(0));
+      assert.equal(0.5, Neuron.sigmoid(0));
     });
     it('should return almost 0 for x = -6', function() {
-      assert.equal(true, 0.01 > n.Neuron.sigmoid(-6));
+      assert.equal(true, 0.01 > Neuron.sigmoid(-6));
     })
     it('should return almost 1 for x = 6', function() {
-      assert.equal(true, 0.99 < n.Neuron.sigmoid(6));
+      assert.equal(true, 0.99 < Neuron.sigmoid(6));
     })
   });
 
   describe('#activate()', function() {
     it('should return 1 if the output of an INPUT neuron is 1', function() {
-      assert.equal(1, new n.Neuron().setOutput(1).activate().output)
+      assert.equal(1, new Neuron().setOutput(1).activate().output)
     })
     it('should return a value between 0 and 1 for a neuron in a hidden layer with 2 inputs', function() {
-      let neuron_in_a = new n.Neuron().randomize().setOutput(0.5)
-      let neuron_in_b = new n.Neuron().randomize().setOutput(-0.5)
-      let neuron = new n.Neuron().setKind(TYPE_HIDDEN)
+      let neuron_in_a = new Neuron().randomize().setOutput(0.5)
+      let neuron_in_b = new Neuron().randomize().setOutput(-0.5)
+      let neuron = new Neuron().setKind(c.TYPE_HIDDEN)
       neuron.addInput(neuron_in_a).addInput(neuron_in_b).randomize(10).activate()
-      // console.log(neuron.output)
       assert.equal(true, 0 < neuron.output && neuron.output < 1)
     })
   })
 
   describe('#randomize(a)', function() {
     it('mean of weights and bias between -10 and 10 and not 0', function() {
-      let neuron = new n.Neuron().setKind(TYPE_HIDDEN).addInput(new n.Neuron()).addInput(new n.Neuron)
+      let neuron = new Neuron().setKind(c.TYPE_HIDDEN).addInput(new Neuron()).addInput(new Neuron())
       neuron.randomize(10)
       let mean = 0
       neuron.weights.forEach(function(w, i){
