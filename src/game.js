@@ -1,6 +1,7 @@
 import * as c from './constants.js'
 import {Snake} from './snake.js'
 import {Food} from './food'
+import {NeuralNet} from './neural/neuralNet'
 
 
 export class Game {
@@ -8,11 +9,12 @@ export class Game {
     this.snakes = [];
     this.food = [];
     this.controls = {left: false, right: false}
+    this.round = 0
   }
 
   initialize() {
     this.snakes = []
-    for (var i = 0; i < c.POPULATION_SIZE; i++) {
+    for (let i = 0; i < c.POPULATION_SIZE; i++) {
       let s = new Snake({x: 100, y: 50}, 0, i)
       s.mountSensors()
       s.initBrain()
@@ -20,9 +22,35 @@ export class Game {
     }
   }
 
+  startRound() {
+    this.round++
+    this.snakes = this.snakes.slice(0, c.POPULATION_SIZE * c.GEN_SURVIVORS)
+    for (var snake of this.snakes) {
+      snake.rebirth({x: 100, y: 50}, 0)
+      snake.mountSensors()
+    }
+    for (let i = 0; i < c.POPULATION_SIZE * c.GEN_CHILDREN; i++) {
+      let s = new Snake({x: 100, y: 50}, 0, 10000*this.round + 100*i)
+      s.mountSensors()
+      let parent1 = Math.floor(c.POPULATION_SIZE * c.GEN_SURVIVORS * Math.random())
+      let parent2 = Math.floor(c.POPULATION_SIZE * c.GEN_SURVIVORS * Math.random())
+      let new_brain = NeuralNet.reproduce(this.snakes[parent1].brain, this.snakes[parent2].brain, c.REPROD_RATE, c.PROB_MUTATION)
+      s.brain = new_brain
+      this.snakes.push(s)
+    }
+    let i = 0
+    while(this.snakes.length < c.POPULATION_SIZE){
+      let s = new Snake({x: 100, y: 50}, 0, 10000*this.round + 200*i)
+      s.mountSensors()
+      s.initBrain()
+      this.snakes.push(s)
+      i++
+    }
+  }
+
 // TODO: REFACTOR RESTART
   restart() {
-    this.initialize()
+    this.startRound()
   }
 
   spawnFood(){
@@ -50,7 +78,7 @@ export class Game {
             s.grow();
           }
         })
-        if(s.id==0){
+        if(s.id=="Player"){
           s.turn(othis.controls.right, othis.controls.left);
         }
         else{

@@ -10,6 +10,21 @@ export class Neuron {
     this.output = 0
   }
 
+  static reproduce(n1, n2, prob_n1, prob_mut){
+    let child = new Neuron()
+    child.setKind(n1.kind)
+    child.bias = Math.random() < prob_n1 ? n1.bias : n2.bias
+    for (let i = 0; i < n1.weights.length; i++) {
+      if (Math.random() < prob_mut){
+        child.weights.push(10 * Math.random())
+      }
+      else {
+        child.weights.push(Math.random() < prob_n1 ? n1.weights[i] : n2.weights[i])
+      }
+    }
+    return child
+  }
+
   setOutput(y){
     this.output = y
     return this;
@@ -38,7 +53,9 @@ export class Neuron {
 
   addInput(neuron){
     this.inputs.push(neuron)
-    this.weights.push(1)
+    if (this.inputs.length > this.weights.length){
+      this.weights.push(1)
+    }
     return this;
   }
 

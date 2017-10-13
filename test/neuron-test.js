@@ -43,6 +43,30 @@ describe('Neuron', function() {
     })
   })
 
+  describe('#reproduce(n1, n2, prob_n1, prob_mut)', function() {
+    it('should return a similar neuron from 2 equal neurons', function() {
+      let n1 = new Neuron().setKind(c.TYPE_HIDDEN).addInput(new Neuron()).addInput(new Neuron())
+      let n2 = new Neuron().setKind(c.TYPE_HIDDEN).addInput(new Neuron()).addInput(new Neuron())
+      let child_neuron = Neuron.reproduce(n1, n2, 0.5, 0)
+      assert.deepEqual(n1.weights, child_neuron.weights)
+      assert.equal(n1.bias, child_neuron.bias)
+    })
+    it('should return a different neuron from 2 different neurons', function() {
+      let n1 = new Neuron().setKind(c.TYPE_HIDDEN).addInput(new Neuron()).addInput(new Neuron()).addInput(new Neuron()).addInput(new Neuron()).randomize(10)
+      let n2 = new Neuron().setKind(c.TYPE_HIDDEN).addInput(new Neuron()).addInput(new Neuron()).addInput(new Neuron()).addInput(new Neuron()).randomize(10)
+      let child_neuron = Neuron.reproduce(n1, n2, 0.5, 0)
+      assert.notDeepEqual(n1.weights, child_neuron.weights)
+      // assert.notEqual(n1.bias, child_neuron.bias)
+    })
+    it('should return a different neuron from 2 equal neurons when 100% chance of mutation', function() {
+      let n1 = new Neuron().setKind(c.TYPE_HIDDEN).addInput(new Neuron()).addInput(new Neuron()).addInput(new Neuron()).addInput(new Neuron())
+      let n2 = new Neuron().setKind(c.TYPE_HIDDEN).addInput(new Neuron()).addInput(new Neuron()).addInput(new Neuron()).addInput(new Neuron())
+      let child_neuron = Neuron.reproduce(n1, n2, 0.5, 1)
+      assert.notDeepEqual(n1.weights, child_neuron.weights)
+      // assert.notEqual(n1.bias, child_neuron.bias)
+    })
+  })
+
   describe('#_function_()', function() {
     it('_message_', function() {
       assert.equal(0,0)

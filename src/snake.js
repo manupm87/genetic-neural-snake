@@ -60,6 +60,16 @@ export class Snake {
     this.brain.randomize(10)
   }
 
+  rebirth(pos, direction) {
+    this.head = new BodyPart({x: pos.x, y: pos.y}, direction);
+    this.sensors = {"food": [], "wall": [], "self": []}
+    this.body = [this.head]
+    this.direction = direction;
+    this.isAlive = true
+    this.score = 0
+    this.life = c.SNAKE_LIFE
+  }
+
   spendLife(){
     this.life -= (c.dt / 1000)
     if(this.life <= 0){

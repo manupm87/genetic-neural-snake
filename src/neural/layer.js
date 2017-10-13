@@ -7,6 +7,14 @@ export class Layer {
     this.neurons = []
   }
 
+  static reproduce(l1, l2, prob_n1, prob_mut){
+    let child_layer = new Layer(l1.kind)
+    for(let i = 0; i < l1.neurons.length; i++){
+      child_layer.neurons.push(Neuron.reproduce(l1.neurons[i], l2.neurons[i], prob_n1, prob_mut))
+    }
+    return child_layer
+  }
+
   addNeurons(n){
     for (var i = 0; i < n; i++) {
       this.neurons.push(new Neuron().setKind(this.kind))

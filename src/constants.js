@@ -2,7 +2,7 @@ export const NUM_SENSORS = 12
 export const SNAKE_VISION = 240
 export const SNAKE_SENSOR_OVERLAP = 0.05
 export const SNAKE_SPEED = 200 //px per second
-export const STEERING_SPEED = 360 // degrees per second
+export const STEERING_SPEED = 480 // degrees per second
 export const BONE_SIZE = 20
 export const SNAKE_LIFE = 10
 
@@ -28,9 +28,15 @@ export const BOT = 1
 export const FOOD_INITIAL_LIFE = 10
 
 export const dt = 30 // milliseconds (rendering freq.)
-export const SIMULTANEUS_FOOD = 5
+export const SIMULTANEUS_FOOD = 10
 export const MOUTH_SIZE = 20
 export const WALL_THICKNESS = 20
-export const POPULATION_SIZE = 51
+export const POPULATION_SIZE = 50
 
 export const RENDER_FREQ = 30;
+
+export const GEN_SURVIVORS = 0.1
+export const GEN_CHILDREN = 0.5
+export const GEN_RANDOM = 0.4
+export const PROB_MUTATION = 0.01
+export const REPROD_RATE = 0.5
