@@ -15,7 +15,12 @@ export class Game {
   initialize() {
     this.snakes = []
     for (let i = 0; i < c.POPULATION_SIZE; i++) {
-      let s = new Snake({x: 100, y: 50}, 0, i)
+      const SPAWN_R = 100
+      let center = {x: c.WORLD_WIDTH / 2, y: c.WORLD_HEIGHT / 2}
+      let alpha = i * 360 / c.POPULATION_SIZE
+      center.x += SPAWN_R * Math.cos(alpha * Math.PI / 180)
+      center.y += SPAWN_R * Math.sin(alpha * Math.PI / 180)
+        let s = new Snake(center, alpha, i)
       s.mountSensors()
       s.initBrain()
       this.snakes.push(s)
@@ -25,13 +30,10 @@ export class Game {
   startRound() {
     this.round++
     this.snakes = this.snakes.slice(0, c.POPULATION_SIZE * c.GEN_SURVIVORS)
-    for (var snake of this.snakes) {
-      snake.rebirth({x: 100, y: 50}, 0)
-      snake.mountSensors()
-    }
+
     for (let i = 0; i < c.POPULATION_SIZE * c.GEN_CHILDREN; i++) {
       let s = new Snake({x: 100, y: 50}, 0, 10000*this.round + 100*i)
-      s.mountSensors()
+      //s.mountSensors()
       let parent1 = Math.floor(c.POPULATION_SIZE * c.GEN_SURVIVORS * Math.random())
       let parent2 = Math.floor(c.POPULATION_SIZE * c.GEN_SURVIVORS * Math.random())
       let new_brain = NeuralNet.reproduce(this.snakes[parent1].brain, this.snakes[parent2].brain, c.REPROD_RATE, c.PROB_MUTATION)
@@ -45,6 +47,19 @@ export class Game {
       s.initBrain()
       this.snakes.push(s)
       i++
+    }
+
+
+
+    // Reposition them
+    for (let i = 0; i< this.snakes.length; i++){
+      const SPAWN_R = 100
+      let center = {x: c.WORLD_WIDTH / 2, y: c.WORLD_HEIGHT / 2}
+      let alpha = i * 360 / c.POPULATION_SIZE
+      center.x += SPAWN_R * Math.cos(alpha * Math.PI / 180)
+      center.y += SPAWN_R * Math.sin(alpha * Math.PI / 180)
+      this.snakes[i].rebirth(center, alpha)
+      this.snakes[i].mountSensors()
     }
   }
 
