@@ -5,6 +5,9 @@ export const SNAKE_SPEED = 200 //px per second
 export const STEERING_SPEED = 480 // degrees per second
 export const BONE_SIZE = 20
 export const SNAKE_LIFE = 10
+export const SNAKE_TYPE_CHAMPION = 0
+export const SNAKE_TYPE_CHILD = 1
+export const SNAKE_TYPE_RANDOM = 2
 
 export const WORLD_WIDTH=600
 export const WORLD_HEIGHT=400
@@ -27,13 +30,13 @@ export const BOT = 1
 
 export const FOOD_INITIAL_LIFE = 10
 
-export const dt = 30 // milliseconds (rendering freq.)
+export const dt = 40 // milliseconds (rendering freq.)
 export const SIMULTANEUS_FOOD = 10
 export const MOUTH_SIZE = 20
 export const WALL_THICKNESS = 20
 export const POPULATION_SIZE = 50
 
-export const RENDER_FREQ = 30;
+export const RENDER_FREQ = 50;
 
 export const GEN_SURVIVORS = 0.1
 export const GEN_CHILDREN = 0.5

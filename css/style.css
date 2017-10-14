@@ -7,13 +7,25 @@ body, html{
     user-select: none;
     /*margin: 1em;*/
     background: #333;
-    color: #ccc;
     text-align: center;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+
+header {
+  font-size: 36pt;
+  font-weight: lighter;
+  color: white;
+  width: 80%;
+  margin: auto;
+  text-align: left;
+  margin-top: 3vh;
 }
 
 canvas {
   background-color: rgb(200, 200, 200);
-  margin-bottom: 10vh;
+  margin-bottom: 5vh;
+  margin-top: 5vh;
+  border-radius: 15px;
 }
 
 .btn{

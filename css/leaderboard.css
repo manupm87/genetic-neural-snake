@@ -1,0 +1,50 @@
+.snake-lists{
+  display: flex;
+  width: 80%;
+  margin: auto;
+}
+
+.snake-list-container{
+  flex: auto;
+}
+
+.snake-list{
+  display: flex;
+  flex: auto;
+  overflow: auto;
+  border-radius: 15px;
+  background-color: ghostwhite;
+  max-height: 30vh;
+  margin: 10px;
+  height: fit-content;
+
+}
+
+.snake-list table {
+  width: 100%;
+  color: black;
+  border-spacing: 0;
+}
+
+.snake-list-name {
+  display: flex;
+  justify-content: flex-end;
+  color: white;
+  margin-right: 25px;
+  font-size: 24pt;
+  font-weight: lighter;
+}
+
+#snake-list-champions, #snake-list-children, #snake-list-random {
+  flex: auto;
+}
+
+.even-row{
+  background-color: rgba(140,211,255,0.2);
+}
+.odd-row{
+  background-color: rgba(105,158,191,0.2);
+}
+tr.dead {
+  color: #ccc
+}

@@ -28,8 +28,12 @@ export class Game {
   }
 
   startRound() {
+    this.snakes = this.snakes.sort((a, b) => (b.score  - a.score))
     this.round++
     this.snakes = this.snakes.slice(0, c.POPULATION_SIZE * c.GEN_SURVIVORS)
+    for (let snake of this.snakes) {
+      snake.setType(c.SNAKE_TYPE_CHAMPION)
+    }
 
     for (let i = 0; i < c.POPULATION_SIZE * c.GEN_CHILDREN; i++) {
       let s = new Snake({x: 100, y: 50}, 0, 10000*this.round + 100*i)
@@ -38,6 +42,7 @@ export class Game {
       let parent2 = Math.floor(c.POPULATION_SIZE * c.GEN_SURVIVORS * Math.random())
       let new_brain = NeuralNet.reproduce(this.snakes[parent1].brain, this.snakes[parent2].brain, c.REPROD_RATE, c.PROB_MUTATION)
       s.brain = new_brain
+      s.setType(c.SNAKE_TYPE_CHILD).setGeneration(this.round)
       this.snakes.push(s)
     }
     let i = 0
@@ -45,6 +50,7 @@ export class Game {
       let s = new Snake({x: 100, y: 50}, 0, 10000*this.round + 200*i)
       s.mountSensors()
       s.initBrain()
+      s.setGeneration(this.round)
       this.snakes.push(s)
       i++
     }
@@ -134,7 +140,7 @@ export class Game {
 
   checkSelf(s) {
     s.body.forEach(function(b, i){
-      if (i > 2 && this._distance(s.head.pos, b.pos) < c.BONE_SIZE){
+      if (i > 1 && this._distance(s.head.pos, b.pos) < c.BONE_SIZE){
         s.die()
       }
     }, this)

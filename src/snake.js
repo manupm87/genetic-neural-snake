@@ -29,6 +29,18 @@ export class Snake {
     this.isAlive = true
     this.score = 0
     this.life = c.SNAKE_LIFE
+    this.type = c.SNAKE_TYPE_RANDOM
+    this.generation = 0
+  }
+
+  setType(type){
+    this.type = type
+    return this
+  }
+
+  setGeneration(generation){
+    this.generation = generation
+    return this
   }
 
   mountSensors() {
