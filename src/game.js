@@ -35,8 +35,9 @@ export class Game {
       snake.setType(c.SNAKE_TYPE_CHAMPION)
     }
 
+    let idx = this.snakes.length
     for (let i = 0; i < c.POPULATION_SIZE * c.GEN_CHILDREN; i++) {
-      let s = new Snake({x: 100, y: 50}, 0, 10000*this.round + 100*i)
+      let s = new Snake({x: 100, y: 50}, 0, 1000*this.round + idx)
       //s.mountSensors()
       let parent1 = Math.floor(c.POPULATION_SIZE * c.GEN_SURVIVORS * Math.random())
       let parent2 = Math.floor(c.POPULATION_SIZE * c.GEN_SURVIVORS * Math.random())
@@ -44,15 +45,16 @@ export class Game {
       s.brain = new_brain
       s.setType(c.SNAKE_TYPE_CHILD).setGeneration(this.round)
       this.snakes.push(s)
+      idx++;
     }
-    let i = 0
+
     while(this.snakes.length < c.POPULATION_SIZE){
-      let s = new Snake({x: 100, y: 50}, 0, 10000*this.round + 200*i)
+      let s = new Snake({x: 100, y: 50}, 0, 1000*this.round + idx)
       s.mountSensors()
       s.initBrain()
       s.setGeneration(this.round)
       this.snakes.push(s)
-      i++
+      idx++
     }
 
 

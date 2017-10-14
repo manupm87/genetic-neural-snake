@@ -112,15 +112,15 @@ export class Renderer {
   }
 	renderGame(game) {
     this.clearCanvas();
-    this.renderSize(game.snakes[0].score)
+    // this.renderSize(game.snakes[0].score)
     game.snakes.forEach(function(s, i){
 			if(s.isAlive){
-				if (s.id === 0){
-					this.renderSnake(s, c.PLAYER)
-				}
-				else {
+				// if (s.id === 0){
+				// 	this.renderSnake(s, c.PLAYER)
+				// }
+				// else {
 	      	this.renderSnake(s, c.BOT)
-				}
+				// }
 			}
     }, this);
     game.food.forEach(function(f, i){
