@@ -1,0 +1,8 @@
+#game-hud{
+  display: flex
+}
+
+#game-hud > div {
+  display: flex;
+  flex: auto;
+}

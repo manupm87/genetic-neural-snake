@@ -7,6 +7,7 @@
   <script src="dist/bundle.js"></script>
   <link rel="stylesheet" type="text/css" href="css/style.css">
   <link rel="stylesheet" type="text/css" href="css/leaderboard.css">
+  <link rel="stylesheet" type="text/css" href="css/markers.css">
 </head>
 
 <body>
@@ -16,17 +17,26 @@
     </div>
   </header>
   <div>
-    <canvas id="canvas" width="600" height="400"></canvas>
-  </div>
-  <div id="controlls">
-    <input id="render-checkbox" type="checkbox" checked />
-  </div>
-  <div class="snake-lists">
-    <div id="snake-list-champions">
+    <div id="game-hud">
+      <div id="scores">
+        <div class="score-container" id="marker-round"></div>
+        <div class="score-container" id="marker-best-cur-round"></div>
+        <div class="score-container" id="marker-best-historical"></div>
+      </div>
+      <div>
+        <canvas id="canvas" width="600" height="400"></canvas>
+      </div>
+      <div id="controlls">
+        <input id="render-checkbox" type="checkbox" checked />
+      </div>
     </div>
-    <div id="snake-list-children">
-    </div>
-    <div id="snake-list-random">
+    <div class="snake-lists">
+      <div id="snake-list-champions">
+      </div>
+      <div id="snake-list-children">
+      </div>
+      <div id="snake-list-random">
+      </div>
     </div>
   </div>
 </body>

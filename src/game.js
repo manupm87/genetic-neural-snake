@@ -11,6 +11,10 @@ export class Game {
     this.food = [];
     this.controls = {left: false, right: false}
     this.round = 0
+    this.scores = {
+      historicalBest: 0,
+      currentBest: 0
+    }
   }
 
   initialize() {
@@ -31,6 +35,7 @@ export class Game {
   startRound() {
     this.snakes = this.snakes.sort((a, b) => (b.score  - a.score))
     this.round++
+    this.scores.currentBest = 0
     this.snakes = this.snakes.slice(0, c.POPULATION_SIZE * c.GEN_SURVIVORS)
     for (let snake of this.snakes) {
       snake.setType(c.SNAKE_TYPE_CHAMPION)
@@ -58,8 +63,6 @@ export class Game {
       idx++
     }
 
-
-
     // Reposition them
     for (let i = 0; i< this.snakes.length; i++){
       const SPAWN_R = 100
@@ -76,6 +79,10 @@ export class Game {
   restart() {
     this.startRound()
     // this.gameLoop()
+  }
+
+  getScores() {
+    return this.scores;
   }
 
   spawnFood(){
@@ -102,6 +109,13 @@ export class Game {
           if (othis._distance(s.head.pos, f.pos) < c.MOUTH_SIZE) {
             othis.food.splice(j, 1);
             s.grow();
+            if(s.score > othis.scores.currentBest){
+              othis.scores.currentBest = s.score
+              if(s.score > othis.scores.historicalBest){
+                othis.scores.historicalBest = s.score
+              }
+            }
+
           }
         }, othis)
         if(s.id=="Player"){

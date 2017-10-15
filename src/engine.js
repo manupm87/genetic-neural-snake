@@ -1,7 +1,8 @@
 import * as c from './constants'
 import {Game, loopInterval} from './game'
 import {Renderer} from './renderer'
-import {SnakeList} from "./react_components/leaderboard.js"
+import {SnakeList} from "./react_components/leaderboard.jsx"
+import {Marker} from "./react_components/scores.jsx"
 import React from 'react'
 import ReactDOM from 'react-dom'
 
@@ -24,6 +25,11 @@ function init() {
 		ReactDOM.render(<SnakeList snakes={game.snakes} snakesType={c.SNAKE_TYPE_CHAMPION} listName="survivors"/>, document.getElementById('snake-list-champions'));
   	ReactDOM.render(<SnakeList snakes={game.snakes} snakesType={c.SNAKE_TYPE_CHILD} listName="children"/>, document.getElementById('snake-list-children'));
 		ReactDOM.render(<SnakeList snakes={game.snakes} snakesType={c.SNAKE_TYPE_RANDOM} listName="random"/>, document.getElementById('snake-list-random'));
+
+
+		ReactDOM.render(<Marker value={game.round} title="round"/>, document.getElementById('marker-round'));
+    ReactDOM.render(<Marker value={game.scores.currentBest} title="current"/>, document.getElementById('marker-best-cur-round'));
+    ReactDOM.render(<Marker value={game.scores.historicalBest} title="best"/>, document.getElementById('marker-best-historical'));
 	}, 500);
   // ReactDOM.render(<leaderboard.SnakeList snakes={game.snakes}/>, document.getElementById('hello'));
   game.start()
