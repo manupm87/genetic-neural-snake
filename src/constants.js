@@ -30,7 +30,9 @@ export const BOT = 1
 
 export const FOOD_INITIAL_LIFE = 10
 
-export const dt = 40 // milliseconds (rendering freq.)
+export const dt = 50 // milliseconds (rendering freq.)
+export var GAME_LOOP_T = dt
+export var RENDER_GAME = true
 export const SIMULTANEUS_FOOD = 10
 export const MOUTH_SIZE = 20
 export const WALL_THICKNESS = 20
@@ -39,7 +41,7 @@ export const POPULATION_SIZE = 50
 export const RENDER_FREQ = 50;
 
 export const GEN_SURVIVORS = 0.1
-export const GEN_CHILDREN = 0.5
-export const GEN_RANDOM = 0.4
-export const PROB_MUTATION = 0.01
+export const GEN_CHILDREN = 0.6
+export const GEN_RANDOM = 0.3
+export const PROB_MUTATION = 0.05
 export const REPROD_RATE = 0.5

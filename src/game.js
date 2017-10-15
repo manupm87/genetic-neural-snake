@@ -3,6 +3,7 @@ import {Snake} from './snake.js'
 import {Food} from './food'
 import {NeuralNet} from './neural/neuralNet'
 
+export var loopInterval = 0
 
 export class Game {
   constructor(){
@@ -74,6 +75,7 @@ export class Game {
 // TODO: REFACTOR RESTART
   restart() {
     this.startRound()
+    // this.gameLoop()
   }
 
   spawnFood(){
@@ -84,9 +86,10 @@ export class Game {
 
   start() {
     var othis = this;
-    setInterval(function() {
+    loopInterval = setInterval(function() {
       othis.gameLoop(othis)
-    }, c.dt)
+    }, c.GAME_LOOP_T)
+    // this.gameLoop(this)
   }
 
   gameLoop(othis) {
@@ -100,7 +103,7 @@ export class Game {
             othis.food.splice(j, 1);
             s.grow();
           }
-        })
+        }, othis)
         if(s.id=="Player"){
           s.turn(othis.controls.right, othis.controls.left);
         }
@@ -114,21 +117,25 @@ export class Game {
         othis.checkWalls(s)
         othis.checkSelf(s)
       }
-    })
-    if(!snakes_alive){
-      othis.restart()
-    }
+    }, othis)
     // Food loop:
     othis.food.forEach(function(f, i) {
       f.decreaseLifeTime(c.dt / 1000)
       if (f.life < 0){
         othis.food.splice(i, 1)
       }
-    })
+    }, othis)
 
     while(othis.food.length < c.SIMULTANEUS_FOOD){
       othis.spawnFood()
     }
+
+    if(!snakes_alive){
+      othis.restart()
+    }
+
+    // window.setTimeout(this.gameLoop(this), 2000)
+
   }
 
   checkWalls(s) {

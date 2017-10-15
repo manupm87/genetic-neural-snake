@@ -1,5 +1,5 @@
 import * as c from './constants'
-import {Game} from './game'
+import {Game, loopInterval} from './game'
 import {Renderer} from './renderer'
 import {SnakeList} from "./react_components/leaderboard.js"
 import React from 'react'
@@ -12,9 +12,14 @@ function init() {
   var game = new Game();
   setEvents(game);
   game.initialize();
-  window.setInterval(function() {
-		renderer.renderGame(game);
-	}, c.RENDER_FREQ);
+
+  function render(){
+    if(c.RENDER_GAME){
+      renderer.renderGame(game)
+    }
+    window.requestAnimationFrame(render)
+  }
+  window.requestAnimationFrame(render)
   window.setInterval(function() {
 		ReactDOM.render(<SnakeList snakes={game.snakes} snakesType={c.SNAKE_TYPE_CHAMPION} listName="survivors"/>, document.getElementById('snake-list-champions'));
   	ReactDOM.render(<SnakeList snakes={game.snakes} snakesType={c.SNAKE_TYPE_CHILD} listName="children"/>, document.getElementById('snake-list-children'));
@@ -47,6 +52,21 @@ function setEvents(g) {
        g.pressRight(false);
     }
   }
+
+  document.getElementById("render-checkbox").onclick = function () {
+    if(document.getElementById("render-checkbox").checked) {
+      c.RENDER_GAME = true
+      c.GAME_LOOP_T = c.dt
+    }
+    else {
+      c.RENDER_GAME = false
+      c.GAME_LOOP_T = 1
+    }
+
+    window.clearInterval(loopInterval)
+    g.start()
+  }
+
   // document.getElementById("btn-left").ontouchstart = function () {
   //   g.pressLeft(true);
   // }
