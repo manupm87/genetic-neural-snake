@@ -27,7 +27,7 @@ function init() {
 		ReactDOM.render(<SnakeList snakes={game.snakes} snakesType={c.SNAKE_TYPE_RANDOM} listName="random"/>, document.getElementById('snake-list-random'));
 
 
-		ReactDOM.render(<Marker value={game.round} title="round"/>, document.getElementById('marker-round'));
+		ReactDOM.render(<Marker value={game.round} title="generation"/>, document.getElementById('marker-round'));
     ReactDOM.render(<Marker value={game.scores.currentBest} title="current"/>, document.getElementById('marker-best-cur-round'));
     ReactDOM.render(<Marker value={game.scores.historicalBest} title="best"/>, document.getElementById('marker-best-historical'));
 	}, 500);

@@ -1,8 +1,32 @@
-#game-hud{
-  display: flex
-}
 
-#game-hud > div {
+#scores {
+  flex-flow: column;
+  justify-content: space-around;
   display: flex;
   flex: auto;
+}
+
+.score-container {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.marker-container {
+  background-color: black;
+  color: aqua;
+  border-radius: 50%;
+  height: 12vh;
+  width: 12vh;
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  font-weight: lighter;
+}
+
+.marker-title{
+  font-weight: lighter;
+}
+
+.marker-value {
+  font-size: 5vh;
 }

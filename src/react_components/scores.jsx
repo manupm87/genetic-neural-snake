@@ -4,9 +4,9 @@ export class Marker extends React.Component {
   render() {
 
     return (
-      <div>
-        <div>{this.props.title}</div>
-        <div>{this.props.value}</div>
+      <div className="marker-container">
+        <div className="marker-title">{this.props.title}</div>
+        <div className="marker-value">{this.props.value}</div>
       </div>
     );
   }

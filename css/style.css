@@ -21,10 +21,21 @@ header {
   margin-top: 3vh;
 }
 
+#game-hud{
+  display: flex;
+  margin-top: 5vh;
+  margin-bottom: 5vh;
+}
+
+#game-hud > div {
+  display: flex;
+  flex: auto;
+  justify-content: center;
+
+}
+
 canvas {
   background-color: rgb(200, 200, 200);
-  margin-bottom: 5vh;
-  margin-top: 5vh;
   border-radius: 15px;
 }
 
