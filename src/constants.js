@@ -1,8 +1,8 @@
 export const NUM_SENSORS = 12
 export const SNAKE_VISION = 240
 export const SNAKE_SENSOR_OVERLAP = 0.05
-export const SNAKE_SPEED = 200 //px per second
-export const STEERING_SPEED = 480 // degrees per second
+export var SNAKE_SPEED = 200 //px per second
+export var STEERING_SPEED = 480 // degrees per second
 export const BONE_SIZE = 20
 export const SNAKE_LIFE = 10
 export const SNAKE_TYPE_CHAMPION = 0

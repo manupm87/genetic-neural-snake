@@ -3,6 +3,7 @@ import {Game, loopInterval} from './game'
 import {Renderer} from './renderer'
 import {SnakeList} from "./react_components/leaderboard.jsx"
 import {Marker} from "./react_components/scores.jsx"
+import {Slider} from './react_components/settings.jsx'
 import React from 'react'
 import ReactDOM from 'react-dom'
 
@@ -13,6 +14,10 @@ function init() {
   var game = new Game();
   setEvents(game);
   game.initialize();
+
+  // Render settings
+  ReactDOM.render(<Slider name="Snake speed" minValue={50} maxValue={400} curValue={200} bind="SNAKE_SPEED"/>, document.getElementById('slider-speed'));
+  ReactDOM.render(<Slider name="Snake rotation" minValue={120} maxValue={1080} curValue={480} bind="STEERING_SPEED"/>, document.getElementById('slider-steering'));
 
   function render(){
     if(c.RENDER_GAME){

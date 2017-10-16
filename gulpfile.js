@@ -23,7 +23,7 @@ var bundler = watchify(browserify('./src/engine.js', watchify.args));
 // We are telling bundler to use the Babel presets
 // es2015 and react (for JSX transpilation)
 bundler.transform(babelify.configure({
-  presets: ["es2015", "react"]
+  presets: ["react", "env", "es2015", "stage-0"]
 }));
 
 // When the bundler has detected a change, rebundle

@@ -1,4 +1,16 @@
 #controlls {
   display: flex;
   flex: auto;
+  flex-flow: column;
+}
+
+#controlls > div {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.slider > div{
+  display: flex;
+  flex: auto;
+  justify-content: space-between;
 }
